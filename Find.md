@@ -117,6 +117,17 @@ indices.
     one can only replace the first one if it supports creating an iterator starting from
     a given index (on which you can call `first` to get the first match).
 
+- **Sentinel values in a world where array indices do not necessarily start with 1**:
+    - `findfirst(x, v)` returns 0 if no value matching `v` is found;
+      however, if `x` allows 0 as an index, the meaning of 0 is
+      ambiguous. One could return `typemin(Int)` or
+      `minimum(linearindices(x))-1`, but what if `x` starts indexing
+      at `typemin(Int)`?
+    - No matter sentinel value gets returned, the deprecation
+      strategy here is delicate. There may be a lot of code that
+      checks the return value and compares it to 0.
+
+
 ## General Proposal 1
 
 The first proposal uses `find` for all-at-once variants, and `search` for iterative
